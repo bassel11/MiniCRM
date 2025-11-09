@@ -1,14 +1,5 @@
 # CRMSystem - Mini CRM Backend
 
-## Table of Contents
-1. [Overview](#overview)
-2. [Features](#features)
-3. [Requirements](#requirements)
-4. [Installation & Setup](#installation--setup)
-5. [Artisan Commands Used](#artisan-commands-used)
-6. [Usage Notes](#usage-notes)
-
----
 
 ## Overview
 
