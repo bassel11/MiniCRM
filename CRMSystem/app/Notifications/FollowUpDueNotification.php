@@ -7,26 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class FollowUpDueNotification extends Notification
+class FollowUpDueNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     */
-    public function __construct()
+    public $followUp;
+    public function __construct($followUp)
     {
-        //
+        $this->followUp = $followUp;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
-     */
+
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -34,21 +28,21 @@ class FollowUpDueNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        return (new MailMessage)
-            ->line('The introduction to the notification.')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+        return (new \Illuminate\Notifications\Messages\MailMessage)
+            ->subject('Follow-up Reminder')
+            ->line('You have a follow-up scheduled for today.')
+            ->line('Client: ' . $this->followUp->client->name)
+            ->line('Notes: ' . $this->followUp->notes)
+            ->action('View Client', url('/clients/' . $this->followUp->client_id));
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
+
     public function toArray(object $notifiable): array
     {
         return [
-            //
+            'client' => $this->followUp->client->name,
+            'due_at' => $this->followUp->due_at,
+            'notes' => $this->followUp->notes,
         ];
     }
 }

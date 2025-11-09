@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\FollowUpController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\CommunicationController;
 
 
 Route::get('/test', function () {
@@ -48,4 +49,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // });
 
     Route::middleware('auth:sanctum')->get('/dashboard', [DashboardController::class, 'index']);
+
+    Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('communications', CommunicationController::class)->only(['index', 'store']);
+});
 });
