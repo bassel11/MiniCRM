@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Models\FollowUp;
+use App\Notifications\FollowUpDueNotification;
 
 
 class SendDueFollowUps extends Command
