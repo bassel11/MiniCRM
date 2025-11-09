@@ -54,7 +54,37 @@ It demonstrates professional backend practices including authentication, roles &
 
 ## Installation
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/MiniCRM.git
-cd MiniCRM
+1- requirements : xampp, php 8.2 ,vscode ,php composer 
+2- create new Repository in GitHub MiniCRM
+3- in htdocs directory create CRM folder inside it Clone https://github.com/bassel11/CRMSystem.git
+3- inside CRM/MiniCRM run :
+  - composer create-project laravel/laravel CRMSystem
+4- run : 
+  - git add. 
+  - git commit -m "initial version"
+  - git push
+5- inside CRMSystem Directory run :
+  - composer require laravel/sanctum
+  - composer require spatie/laravel-permission
+  - composer require barryvdh/laravel-ide-helper --dev
+6-run git commands:
+  - git add .
+  - git commit -m "add clients, communications, and follow_ups migrations"
+7- run php artisan migrate:fresh --seed
+8- test APIs using postman
+9- run php artisan make:controller Api/ClientController --api
+10- run command :
+  - php artisan make:request StoreClientRequest
+  - php artisan make:request UpdateClientRequest
+11- make Resources:
+  - php artisan make:resource ClientResource
+12- run php artisan make:policy ClientPolicy --model=Client
+13- run php artisan make:controller Api/DashboardController
+14- run: php artisan make:controller Api/CommunicationController --api
+15- php artisan make:request StoreCommunicationRequest
+16- php artisan make:resource CommunicationResource
+17- php artisan make:event CommunicationCreated
+18- php artisan make:listener UpdateClientAfterCommunication --event=CommunicationCreated
+19- run: php artisan make:notification FollowUpDueNotification
+20- run: php artisan make:command SendDueFollowUps
+
