@@ -1,0 +1,232 @@
+{
+  "info": {
+    "name": "Mini CRM API",
+    "_postman_id": "mini-crm-collection-001",
+    "description": "Collection for Advanced Laravel Mini CRM Backend Test",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Test Connection",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/test",
+          "host": ["{{base_url}}"],
+          "path": ["api","test"]
+        }
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/login",
+          "host": ["{{base_url}}"],
+          "path": ["api","login"]
+        }
+      }
+    },
+    {
+      "name": "Get Current User",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/me",
+          "host": ["{{base_url}}"],
+          "path": ["api","me"]
+        }
+      }
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/logout",
+          "host": ["{{base_url}}"],
+          "path": ["api","logout"]
+        }
+      }
+    },
+    {
+      "name": "Clients - List",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/clients",
+          "host": ["{{base_url}}"],
+          "path": ["api","clients"]
+        }
+      }
+    },
+    {
+      "name": "Clients - Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Client Name\",\n  \"email\": \"client@example.com\",\n  \"phone\": \"123456789\",\n  \"status\": \"New\",\n  \"assigned_to\": 2\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/clients",
+          "host": ["{{base_url}}"],
+          "path": ["api","clients"]
+        }
+      }
+    },
+    {
+      "name": "Communications - List",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/communications",
+          "host": ["{{base_url}}"],
+          "path": ["api","communications"]
+        }
+      }
+    },
+    {
+      "name": "Communications - Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"client_id\": 1,\n  \"type\": \"call\",\n  \"date\": \"2025-11-09 10:00:00\",\n  \"notes\": \"Follow-up call\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/communications",
+          "host": ["{{base_url}}"],
+          "path": ["api","communications"]
+        }
+      }
+    },
+    {
+      "name": "Follow-ups - List",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/follow-ups",
+          "host": ["{{base_url}}"],
+          "path": ["api","follow-ups"]
+        }
+      }
+    },
+    {
+      "name": "Follow-ups - Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"client_id\": 1,\n  \"user_id\": 2,\n  \"due_at\": \"2025-11-12 09:00:00\",\n  \"notes\": \"Call client\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/follow-ups",
+          "host": ["{{base_url}}"],
+          "path": ["api","follow-ups"]
+        }
+      }
+    },
+    {
+      "name": "Follow-up for specific client",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user_id\": 2,\n  \"due_at\": \"2025-11-12 10:00:00\",\n  \"notes\": \"Schedule meeting\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/api/clients/1/follow-up",
+          "host": ["{{base_url}}"],
+          "path": ["api","clients","1","follow-up"]
+        }
+      }
+    },
+    {
+      "name": "Dashboard",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/dashboard",
+          "host": ["{{base_url}}"],
+          "path": ["api","dashboard"]
+        }
+      }
+    },
+    {
+      "name": "Admin - Clients",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/admin/clients",
+          "host": ["{{base_url}}"],
+          "path": ["api","admin","clients"]
+        }
+      }
+    },
+    {
+      "name": "Debug User",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/debug-me",
+          "host": ["{{base_url}}"],
+          "path": ["api","debug-me"]
+        }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:8000" },
+    { "key": "token", "value": "" }
+  ]
+}
