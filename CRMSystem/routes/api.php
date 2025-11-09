@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\FollowUpController;
+use App\Http\Controllers\Api\DashboardController;
 
 
 Route::get('/test', function () {
@@ -30,15 +31,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
 
-    // مسارات Admin فقط
+    //  Admin فقط
     Route::middleware('role:admin')->group(function () {
         Route::get('/admin/clients', [ClientController::class, 'index']);
         // يمكن إضافة أي مسار آخر خاص بالـ Admin هنا
     });
 
-    // // // مسارات Manager و Sales Rep
-    Route::middleware('role:manager,sales_rep')->group(function () {
-        Route::post('/clients/{id}/follow-up', [FollowUpController::class, 'store']);
-        // يمكن إضافة أي مسارات أخرى للمتابعة أو العملاء هنا
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::apiResource('clients', ClientController::class);
     });
+
+    // //  Manager و Sales Rep
+    // Route::middleware('role:manager,sales_rep')->group(function () {
+    //     Route::post('/clients/{id}/follow-up', [FollowUpController::class, 'store']);
+    //     // يمكن إضافة أي مسارات أخرى للمتابعة أو العملاء هنا
+    // });
+
+    Route::middleware('auth:sanctum')->get('/dashboard', [DashboardController::class, 'index']);
 });
