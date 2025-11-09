@@ -2,7 +2,7 @@
   "info": {
     "name": "Mini CRM API",
     "_postman_id": "mini-crm-collection-001",
-    "description": "Collection for Advanced Laravel Mini CRM Backend Test",
+    "description": "Collection for Advanced Laravel Mini CRM Backend Test APIs and API Doc" ,
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
