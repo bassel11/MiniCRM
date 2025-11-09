@@ -1,59 +1,65 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CRMSystem - Mini CRM Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Project Overview
+CRMSystem is a mini CRM backend built with **Laravel 12**, designed for a remote sales team.  
+It tracks **clients**, **communications**, and **follow-up tasks** with multiple user roles (**Admin, Manager, Sales Rep**).  
+This system demonstrates **professional architecture**, **Clean Architecture practices**, **events & jobs**, and automated business logic.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Authentication & Roles
+- Token-based authentication using **Laravel Sanctum**
+- User roles:
+  - **Admin:** full access to all data
+  - **Manager:** view all clients, edit team’s clients
+  - **Sales Rep:** only access their assigned clients
+- Role-based middleware protection for APIs
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Client Management
+- CRUD operations for clients
+- Fields: `name`, `email`, `phone`, `status`, `assigned_to`, `last_communication_at`
+- Automatic status updates:
+  - **Hot** → if 3+ communications in the last week
+  - **Inactive** → if no communication for 30+ days
+- Policies ensure correct access per role
 
-## Learning Laravel
+### Communication Logs
+- Tracks client interactions: calls, emails, meetings
+- Fields: `client_id`, `type`, `date`, `notes`, `created_by`
+- Updates `last_communication_at` automatically
+- Event-driven updates to client status
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Follow-up Tasks
+- Sales Reps can schedule follow-ups
+- Automatic notifications for due follow-ups using **Laravel Notifications & Queue**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Dashboard
+Provides key metrics via API endpoints:
+- Total clients by status
+- Top 5 Sales Reps by active clients
+- Clients needing follow-up today
+- Average communications per client
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Tech Stack
+- **Backend:** Laravel 12 (PHP 8.2)
+- **Database:** MySQL (XAMPP)
+- **Authentication:** Laravel Sanctum
+- **Roles/Permissions:** Spatie Laravel Permission
+- **Queue/Jobs:** Laravel Queues (database driver)
+- **Notifications:** Email/Database
+- **Testing:** PHPUnit / Pest
+- **Documentation:** Postman collection / optional Swagger (Scribe)
+- **Architecture:** Clean Architecture (Domain / Application / Infrastructure)
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Setup Instructions
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1. Clone the repo:
+```bash
+git clone https://github.com/yourusername/MiniCRM.git
+cd MiniCRM
