@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
+
 class SendDueFollowUps extends Command
 {
     protected $signature = 'followups:send-due';
