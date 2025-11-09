@@ -1,5 +1,5 @@
 <?php
-use Illuminate\Support\Facades\Log;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClientController;
@@ -7,50 +7,63 @@ use App\Http\Controllers\Api\FollowUpController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\CommunicationController;
 
-
+// مسار اختبار بسيط
 Route::get('/test', function () {
-    return response()->json([
-        'message' => 'تم الاتصال'
-    ]);
+    return response()->json(['message' => 'تم الاتصال']);
 });
 
-
-// تسجيل الدخول
+// -----------------------------
+// Auth APIs
+// -----------------------------
 Route::post('/login', [AuthController::class, 'login']);
 
-// مسارات محمية بالـ Sanctum
 Route::middleware(['auth:sanctum'])->group(function () {
 
-    Route::get('/debug-me', function (\Illuminate\Http\Request $request) {
-        \Log::info('✅ Inside Sanctum Route', ['user' => $request->user()]);
-        return response()->json(['user' => $request->user()]);
-    });
     // معلومات المستخدم الحالي
     Route::get('/me', [AuthController::class, 'me']);
 
     // تسجيل الخروج
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    // -----------------------------
+    // Client APIs
+    // -----------------------------
+    Route::apiResource('clients', ClientController::class);
 
-    //  Admin فقط
+    // -----------------------------
+    // Communication APIs
+    // -----------------------------
+    Route::apiResource('communications', CommunicationController::class)
+        ->only(['index','store']);
+
+    // -----------------------------
+    // Follow-up APIs
+    // -----------------------------
+    Route::apiResource('follow-ups', FollowUpController::class)
+        ->only(['index','store','show']);
+
+    // إنشاء Follow-up للعميل (خاص بالـ Manager و Sales Rep)
+    Route::post('/clients/{client}/follow-up', [FollowUpController::class, 'store'])
+        ->middleware('role:manager,sales_rep');
+
+    // -----------------------------
+    // Dashboard API
+    // -----------------------------
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    // -----------------------------
+    // Admin-specific APIs
+    // -----------------------------
     Route::middleware('role:admin')->group(function () {
+        // مثال لمسار إضافي خاص بالـ Admin
         Route::get('/admin/clients', [ClientController::class, 'index']);
-        // يمكن إضافة أي مسار آخر خاص بالـ Admin هنا
     });
 
-    Route::middleware(['auth:sanctum'])->group(function () {
-        Route::apiResource('clients', ClientController::class);
+    // -----------------------------
+    // Debug (اختياري)
+    // -----------------------------
+    Route::get('/debug-me', function (\Illuminate\Http\Request $request) {
+        \Log::info('✅ Inside Sanctum Route', ['user' => $request->user()]);
+        return response()->json(['user' => $request->user()]);
     });
-
-    // //  Manager و Sales Rep
-    // Route::middleware('role:manager,sales_rep')->group(function () {
-    //     Route::post('/clients/{id}/follow-up', [FollowUpController::class, 'store']);
-    //     // يمكن إضافة أي مسارات أخرى للمتابعة أو العملاء هنا
-    // });
-
-    Route::middleware('auth:sanctum')->get('/dashboard', [DashboardController::class, 'index']);
-
-    Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('communications', CommunicationController::class)->only(['index', 'store']);
-});
 });
